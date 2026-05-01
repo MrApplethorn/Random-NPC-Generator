@@ -33,7 +33,7 @@
   </head>
   <body>
     <h1>Random NPC Generator</h1>
-    <p>Your random NPC will appear here:</p>
+    <p>Your random NPC will appear here.</p>
     <button id="generateButton">Generate NPC</button>
     <!-- JavaScript code goes here -->
     <script>
@@ -48,7 +48,7 @@
       const randomIndex2 = Math.floor(Math.random() * keywords.length);
       const randomTrait = traits[randomIndex1];
       const randomKeyword = keywords[randomIndex2];
-      document.querySelector("p").textContent = `Random NPC: ${randomKeyword} ${randomTrait}`;
+      document.querySelector("p").textContent = `${randomKeyword} ${randomTrait}`;
       }
       // Attach an event listener to the button
       generateButton.addEventListener("click", generateRandomTrait);
