@@ -37,14 +37,15 @@
     <!-- JavaScript code goes here -->
     <script>
       // Define an array of words
-      const words = ["apple", "banana", "cherry", "date", "elderberry", "fig", "grape"];
+      const traits = ["Abhorrent", "Aggressive", "Ancient", "Beautiful", "Child", "Eccentric", "Famous", "Focal", "Genius", "Hideous", "Humorous", "Impoverished", "Mysterious", "Notorious", "Power Hungry", "Saintly", "Wealthy", "Zealot", "Academic", "Adventurer", "Business", "Criminal", "Entertainment", "Military", "Occult", "Police", "Political", "Primal", "Religious", "Royalty", "Artist", "Charming", "Counselor", "Crafter", "Dilettante", "Laborer", "Leader", "Magical", "Medic", "Merchant", "Outdoorsman", "Pilot", "Scholar", "Scientist", "Stealthy", "Warrior", "White Collar"];
+      const keywords = [];
       // Get a reference to the button element
       const generateButton = document.getElementById("generateButton");
       // Function to generate a random word
       function generateRandomWord() {
-      const randomIndex = Math.floor(Math.random() * words.length);
-      const randomWord = words[randomIndex];
-      document.querySelector("p").textContent = `Random Word: ${randomWord}`;
+      const randomIndex = Math.floor(Math.random() * traits.length);
+      const randomWord = traits[randomIndex];
+      document.querySelector("p").textContent = `Random NPC: ${randomWord}`;
       }
       // Attach an event listener to the button
       generateButton.addEventListener("click", generateRandomWord);
