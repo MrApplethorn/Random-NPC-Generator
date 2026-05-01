@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Random NPC Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f2f2f2;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        color: #333;
+      }
+      p {
+        font-size: 18 px;
+        color: #666;
+      }
+      button {
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        padding: 10 px 20 px;
+        font-size: 16 px;
+        cursor: pointer;
+        transitionL background-color 0.3s ease;
+      }
+      button:hover {
+        background-color: #2980b9;
+    </style>
+  </head>
+  <body>
+    <h1>Random NPC Generator</h1>
+    <p>Your random NPC will appear here:</p>
+    <button id="generateButton">Generate NPC</button>
+    <!-- JavaScript code goes here -->
+    <script>
+      // Define an array of words
+      const words = ["apple", "banana", "cherry", "date", "elderberry", "fig", "grape"];
+      // Get a reference to the button element
+      const generateButton = document.getElementById("generateButton");
+      // Function to generate a random word
+      function generateRandomWord() {
+      const randomIndex = Math.floor(Math.random() * words.length);
+      const randomWord = words[randomIndex];
+      document.querySelector("p").textContent = `Random Word: ${randomWord}`;
+      }
+      // Attach an event listener to the button
+      generateButton.addEventListener("click", generateRandomWord);
+    </script>
+  </body>
+</html>
