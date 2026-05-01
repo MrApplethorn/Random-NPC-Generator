@@ -14,20 +14,21 @@
         color: #333;
       }
       p {
-        font-size: 18 px;
+        font-size: 18px;
         color: #666;
       }
       button {
         background-color: #3498db;
         color: #fff;
         border: none;
-        padding: 10 px 20 px;
-        font-size: 16 px;
+        padding: 10px 20px;
+        font-size: 16px;
         cursor: pointer;
-        transitionL background-color 0.3s ease;
+        transition: background-color 0.3s ease;
       }
       button:hover {
         background-color: #2980b9;
+      }
     </style>
   </head>
   <body>
@@ -50,7 +51,7 @@
       document.querySelector("p").textContent = `Random NPC: ${randomKeyword} ${randomTrait}`;
       }
       // Attach an event listener to the button
-      generateButton.addEventListener("click", generateRandomWord);
+      generateButton.addEventListener("click", generateRandomTrait);
     </script>
   </body>
 </html>
