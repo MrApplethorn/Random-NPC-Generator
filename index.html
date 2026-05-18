@@ -56,18 +56,21 @@
       
       function buildReel(innerEl, datasets, spinDuration, hasOverlay) {
         const SPIN_COUNT = 30;
-        const combined = combineDatasets(datasets);
         const items = [];
         
         for (let i = 0; i < SPIN_COUNT; i++) {
-          const values = datasets.map(dataset => 
-            dataset[Math.floor(Math.random() * dataset.length)]
-          );
+          const values = datasets.map(dataset => {
+            const item = dataset[Math.floor(Math.random() * dataset.length)];
+            return typeof item === 'object' && item.name ? item.name : item;
+          });
           items.push(values.join(', '));
         }
         
-        const finalValues = datasets.map(dataset =>
+        const finalObjects = datasets.map(dataset =>
           dataset[Math.floor(Math.random() * dataset.length)]
+        );
+        const finalValues = finalObjects.map(item =>
+          typeof item === 'object' && item.name ? item.name : item
         );
         const finalItem = finalValues.join(', ');
         items.push(finalItem);
@@ -88,7 +91,7 @@
         innerEl.style.transition = `transform ${spinDuration}ms cubic-bezier(0.25, 0.1, 0.2, 1)`;
         innerEl.style.transform = `translateY(${targetY}px)`;
       
-        return hasOverlay ? finalItem : null;
+        return hasOverlay ? { display: finalItem, objects: finalObjects } : null;
       }
       
       function spinReels() {
@@ -114,14 +117,20 @@
       
         setTimeout(() => {
           if (reelConfig.race.hasOverlay && finalResults.race) {
-            document.getElementById('race-description').textContent = finalResults.race.description;
+            const descriptions = finalResults.race.objects
+              .filter(obj => obj.description)
+              .map(obj => obj.description)
+              .join(' ');
+            document.getElementById('race-description').textContent = descriptions;
           }
           if (reelConfig.alignment.hasOverlay && finalResults.alignment) {
-            document.getElementById('alignment-description').textContent = finalResults.alignment.description;
+            const descriptions = finalResults.alignment.objects
+              .filter(obj => obj.description)
+              .map(obj => obj.description)
+              .join(' ');
+            document.getElementById('alignment-description').textContent = descriptions;
           }
-          generateButton.disabled = false;
         }, 3100);
-      } // <-- This was missing!
       
       // Toggle overlays
       document.getElementById('reel-race').addEventListener('click', () => {
