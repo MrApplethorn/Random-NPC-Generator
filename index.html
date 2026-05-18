@@ -170,13 +170,13 @@
       // Toggle overlay on race reel click
       document.getElementById('reel-race').addEventListener('click', () => {
         const overlay = document.getElementById('race-details-overlay');
-        overlay.classList.toggle('show');
+        overlay.classList.toggle('active');
       });
       
       // Toggle overlay on alignment reel click
       document.getElementById('reel-alignment').addEventListener('click', () => {
         const overlay = document.getElementById('alignment-details-overlay');
-        overlay.classList.toggle('show');
+        overlay.classList.toggle('active');
       });
       
       generateButton.addEventListener("click", spinReels);
