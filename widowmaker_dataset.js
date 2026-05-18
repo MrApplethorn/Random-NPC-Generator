@@ -73,22 +73,22 @@ const reelConfig = {
   enemyRole: {
     datasets: [enemyRoles, enemyRoles, enemyRoles],
     spinDuration: 2400,
-    hasOverlay: false,
-    isWide: true,
-    label: "Personal"
+    hasOverlay: true,
+    isWide: false,
+    label: "Enemy Roles"
   },
   enemyType: {
     datasets: [enemyTypes, enemyTypes],
     spinDuration: 2600,
-    hasOverlay: true,
-    isWide: true,
-    label: "Enemy Type"
+    hasOverlay: false,
+    isWide: false,
+    label: "Enemy Types"
   },
   enemyDamage: {
     datasets: [enemyDamages, enemyDamages],
     spinDuration: 2800,
     hasOverlay: false,
     isWide: false,
-    label: "Enemy Damage"
+    label: "Damage Synergies"
   }
 };
