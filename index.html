@@ -20,27 +20,7 @@
       <p class="intro-text">Did your player characters just start talking to a random NPC but you have no idea who that person is, click the "Generate NPC"-button below.</p>
       <div class="reel-wrapper">
         <div class="reels">
-          <div class="reel-outer wide" id="reel-race">
-            <div class="reel-inner" id="inner-race"></div>
-            <div class="overlay-panel" id="race-details-overlay">
-              <div id="race-description"></div>
-            </div>
-          </div>
-          <div class="reel-outer" id="reel-keyword">
-            <div class="reel-inner" id="inner-keyword"></div>
-          </div>
-          <div class="reel-outer" id="reel-trait">
-            <div class="reel-inner" id="inner-trait"></div>
-          </div>
-          <div class="reel-outer wide" id="reel-personal">
-            <div class="reel-inner" id="inner-personal"></div>
-          </div>
-          <div class="reel-outer wide" id="reel-alignment">
-            <div class="reel-inner" id="inner-alignment"></div>
-            <div class="overlay-panel" id="alignment-details-overlay">
-              <div id="alignment-description"></div>
-            </div>
-          </div>
+          <!-- This stays empty, JavaScript fills it -->
         </div>
       </div>
       <button id="generateButton">Generate NPC</button>
@@ -116,32 +96,57 @@
         });
       
         setTimeout(() => {
-          if (reelConfig.race.hasOverlay && finalResults.race) {
-            const descriptions = finalResults.race.objects
-              .filter(obj => obj.description)
-              .map(obj => obj.description)
-              .join(' ');
-            document.getElementById('race-description').textContent = descriptions;
-          }
-          if (reelConfig.alignment.hasOverlay && finalResults.alignment) {
-            const descriptions = finalResults.alignment.objects
-              .filter(obj => obj.description)
-              .map(obj => obj.description)
-              .join(' ');
-            document.getElementById('alignment-description').textContent = descriptions;
-          }
+          Object.entries(reelConfig).forEach(([key, config]) => {
+            if (config.hasOverlay && finalResults[key]) {
+              const descriptions = finalResults[key].objects
+                .filter(obj => obj.description)
+                .map(obj => obj.description)
+                .join(' ');
+              document.getElementById(`${key}-description`).textContent = descriptions;
+            }
+          });
           generateButton.disabled = false;
         }, 3100);
       } // <-- This closing brace was missing!
+
+      function initializeReels() {
+        const reelsContainer = document.querySelector('.reels');
+        reelsContainer.innerHTML = ''; // Clear existing reels
+        
+        Object.entries(reelConfig).forEach(([key, config]) => {
+          const reelOuter = document.createElement('div');
+          reelOuter.className = `reel-outer${config.isWide ? ' wide' : ''}`;
+          reelOuter.id = `reel-${key}`;
+          
+          const reelInner = document.createElement('div');
+          reelInner.className = 'reel-inner';
+          reelInner.id = `inner-${key}`;
+          
+          reelOuter.appendChild(reelInner);
+          
+          if (config.hasOverlay) {
+            const overlay = document.createElement('div');
+            overlay.className = 'overlay-panel';
+            overlay.id = `${key}-details-overlay`;
+            
+            const description = document.createElement('div');
+            description.id = `${key}-description`;
+            
+            overlay.appendChild(description);
+            reelOuter.appendChild(overlay);
+            
+            // Add click listener for overlay toggle
+            reelOuter.addEventListener('click', () => {
+              overlay.classList.toggle('active');
+            });
+          }
+          
+          reelsContainer.appendChild(reelOuter);
+        });
+      }
       
-      // Toggle overlays
-      document.getElementById('reel-race').addEventListener('click', () => {
-        document.getElementById('race-details-overlay').classList.toggle('active');
-      });
-      
-      document.getElementById('reel-alignment').addEventListener('click', () => {
-        document.getElementById('alignment-details-overlay').classList.toggle('active');
-      });
+      // Call this on page load
+      initializeReels();
       
       generateButton.addEventListener("click", spinReels);
     </script>
