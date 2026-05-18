@@ -114,17 +114,21 @@
         reelsContainer.innerHTML = '';
         
         Object.entries(reelConfig).forEach(([key, config]) => {
-          const reelOuter = document.createElement('div');
-          reelOuter.className = `reel-outer${config.isWide ? ' wide' : ''}`;
-          reelOuter.id = `reel-${key}`;
+          // Create wrapper for label + reel
+          const wrapper = document.createElement('div');
+          wrapper.className = 'reel-wrapper-item';
           
           // Create label if it exists
           if (config.label) {
             const label = document.createElement('div');
             label.className = 'reel-label';
             label.textContent = config.label;
-            reelOuter.appendChild(label);
+            wrapper.appendChild(label);
           }
+          
+          const reelOuter = document.createElement('div');
+          reelOuter.className = `reel-outer${config.isWide ? ' wide' : ''}`;
+          reelOuter.id = `reel-${key}`;
           
           const reelInner = document.createElement('div');
           reelInner.className = 'reel-inner';
@@ -143,13 +147,13 @@
             overlay.appendChild(description);
             reelOuter.appendChild(overlay);
             
-            // Add click listener for overlay toggle
             reelOuter.addEventListener('click', () => {
               overlay.classList.toggle('active');
             });
           }
           
-          reelsContainer.appendChild(reelOuter);
+          wrapper.appendChild(reelOuter);
+          reelsContainer.appendChild(wrapper);
         });
       }
       
