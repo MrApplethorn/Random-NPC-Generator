@@ -62,7 +62,10 @@
         for (let i = 0; i < SPIN_COUNT; i++) {
           items.push(combined[Math.floor(Math.random() * combined.length)]);
         }
-        items.push(combined[Math.floor(Math.random() * combined.length)]);
+        
+        // This is the final item that will be displayed
+        const finalItem = combined[Math.floor(Math.random() * combined.length)];
+        items.push(finalItem);
       
         innerEl.innerHTML = '';
         items.forEach(item => {
@@ -84,7 +87,7 @@
         innerEl.style.transition = `transform ${spinDuration}ms cubic-bezier(0.25, 0.1, 0.2, 1)`;
         innerEl.style.transform = `translateY(${targetY}px)`;
       
-        return null;
+        return finalItem;  // Return the actual final item
       }
       
       function spinReels() {
@@ -95,39 +98,27 @@
         Object.entries(reelConfig).forEach(([key, config]) => {
           const innerEl = document.getElementById(`inner-${key}`);
           
-          // Use custom build function if provided, otherwise use standard build
           if (config.buildFunction) {
             const result = config.buildFunction(innerEl, config.datasets, config.spinDuration);
             if (result) {
               finalResults[key] = result;
             }
           } else {
-            buildReel(innerEl, config.datasets, config.spinDuration);
-            
-            // Store final indices for overlay descriptions
+            const finalItem = buildReel(innerEl, config.datasets, config.spinDuration);
             if (config.hasOverlay) {
-              const combined = combineDatasets(config.datasets);
-              finalResults[key + 'Index'] = Math.floor(Math.random() * combined.length);
+              finalResults[key] = finalItem;
             }
           }
         });
       
         setTimeout(() => {
-          // Update overlay descriptions
-          if (reelConfig.race.hasOverlay && finalResults.raceIndex !== undefined) {
-            const raceItem = combineDatasets(reelConfig.race.datasets)[finalResults.raceIndex];
-            document.getElementById('race-description').textContent = raceItem.description;
+          if (reelConfig.race.hasOverlay && finalResults.race) {
+            document.getElementById('race-description').textContent = finalResults.race.description;
           }
-          if (reelConfig.alignment.hasOverlay && finalResults.alignmentIndex !== undefined) {
-            const alignmentItem = combineDatasets(reelConfig.alignment.datasets)[finalResults.alignmentIndex];
-            document.getElementById('alignment-description').textContent = alignmentItem.description;
+          if (reelConfig.alignment.hasOverlay && finalResults.alignment) {
+            document.getElementById('alignment-description').textContent = finalResults.alignment.description;
           }
         }, 3100);
-      
-        setTimeout(() => {
-          generateButton.disabled = false;
-        }, 3100);
-      }
       
       // Toggle overlays
       document.getElementById('reel-race').addEventListener('click', () => {
