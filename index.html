@@ -54,7 +54,7 @@
       const generateButton = document.getElementById("generateButton");
       let finalResults = {};
       
-      function buildReel(innerEl, datasets, spinDuration) {
+      function buildReel(innerEl, datasets, spinDuration, hasOverlay) {
         const SPIN_COUNT = 30;
         const combined = combineDatasets(datasets);
         const items = [];
@@ -63,7 +63,6 @@
           items.push(combined[Math.floor(Math.random() * combined.length)]);
         }
         
-        // This is the final item that will be displayed
         const finalItem = combined[Math.floor(Math.random() * combined.length)];
         items.push(finalItem);
       
@@ -87,7 +86,7 @@
         innerEl.style.transition = `transform ${spinDuration}ms cubic-bezier(0.25, 0.1, 0.2, 1)`;
         innerEl.style.transform = `translateY(${targetY}px)`;
       
-        return finalItem;  // Return the actual final item
+        return hasOverlay ? finalItem : null;  // Only return if it has an overlay
       }
       
       function spinReels() {
@@ -104,8 +103,8 @@
               finalResults[key] = result;
             }
           } else {
-            const finalItem = buildReel(innerEl, config.datasets, config.spinDuration);
-            if (config.hasOverlay) {
+            const finalItem = buildReel(innerEl, config.datasets, config.spinDuration, config.hasOverlay);
+            if (finalItem) {
               finalResults[key] = finalItem;
             }
           }
