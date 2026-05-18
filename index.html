@@ -111,12 +111,20 @@
 
       function initializeReels() {
         const reelsContainer = document.querySelector('.reels');
-        reelsContainer.innerHTML = ''; // Clear existing reels
+        reelsContainer.innerHTML = '';
         
         Object.entries(reelConfig).forEach(([key, config]) => {
           const reelOuter = document.createElement('div');
           reelOuter.className = `reel-outer${config.isWide ? ' wide' : ''}`;
           reelOuter.id = `reel-${key}`;
+          
+          // Create label if it exists
+          if (config.label) {
+            const label = document.createElement('div');
+            label.className = 'reel-label';
+            label.textContent = config.label;
+            reelOuter.appendChild(label);
+          }
           
           const reelInner = document.createElement('div');
           reelInner.className = 'reel-inner';
