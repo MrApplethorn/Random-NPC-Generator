@@ -54,20 +54,19 @@
       const generateButton = document.getElementById("generateButton");
       let finalRaceIndex = 0;
 
-      function buildReel(innerEl, list, finalIndex, spinDuration) {
-        // Build a long strip: lots of random items + the final one at the end
+      function buildReel(innerEl, list, spinDuration) {
         const SPIN_COUNT = 30;
         const items = [];
+        
         for (let i = 0; i < SPIN_COUNT; i++) {
           items.push(list[Math.floor(Math.random() * list.length)]);
         }
-        items.push(list[finalIndex]);
-
+        items.push(list[Math.floor(Math.random() * list.length)]);
+      
         innerEl.innerHTML = '';
         items.forEach(item => {
           const div = document.createElement('div');
           div.className = 'reel-item';
-          // Check if item is an object (race) or a string (other lists)
           if (typeof item === 'object' && item.name) {
             div.textContent = item.name;
           } else {
@@ -75,26 +74,20 @@
           }
           innerEl.appendChild(div);
         });
-
-        // Start at top, animate to final item (second to last visible = last item centered)
+      
         innerEl.style.transition = 'none';
         innerEl.style.transform = 'translateY(0)';
-
-        const targetY = -(SPIN_COUNT * 80);
-
-        // Force reflow before animating
         innerEl.getBoundingClientRect();
-
+      
+        const targetY = -(SPIN_COUNT * 80);
         innerEl.style.transition = `transform ${spinDuration}ms cubic-bezier(0.25, 0.1, 0.2, 1)`;
         innerEl.style.transform = `translateY(${targetY}px)`;
       }
-
+      
       function buildCombinationReel(innerEl, finalSexuality, finalGender, finalRelationship, spinDuration) {
-        // Create combinations of all three categories
         const combinations = [];
         const SPIN_COUNT = 30;
-
-        // Generate random combinations for spinning
+      
         for (let i = 0; i < SPIN_COUNT; i++) {
           const g = gender[Math.floor(Math.random() * gender.length)];
           const validSexualities = getValidSexuality(g);
@@ -104,10 +97,9 @@
           combinations.push(`${formattedDisplay}, ${r}`);
         }
         
-        // Add the final combination
         const formattedFinalDisplay = formatSexualityAndGender(finalSexuality, finalGender);
         combinations.push(`${formattedFinalDisplay}, ${finalRelationship}`);
-
+      
         innerEl.innerHTML = '';
         combinations.forEach(text => {
           const div = document.createElement('div');
@@ -115,16 +107,12 @@
           div.textContent = text;
           innerEl.appendChild(div);
         });
-
-        // Start at top, animate to final item
+      
         innerEl.style.transition = 'none';
         innerEl.style.transform = 'translateY(0)';
-
-        const targetY = -(SPIN_COUNT * 80);
-
-        // Force reflow before animating
         innerEl.getBoundingClientRect();
-
+      
+        const targetY = -(SPIN_COUNT * 80);
         innerEl.style.transition = `transform ${spinDuration}ms cubic-bezier(0.25, 0.1, 0.2, 1)`;
         innerEl.style.transform = `translateY(${targetY}px)`;
       }
@@ -143,20 +131,12 @@
         finalRaceIndex = Math.floor(Math.random() * race.length);
         const finalAlignmentIndex = Math.floor(Math.random() * alignment.length);
       
-        const innerKeyword = document.getElementById('inner-keyword');
-        const innerTrait = document.getElementById('inner-trait');
-        const innerPersonal = document.getElementById('inner-personal');
-        const innerRace = document.getElementById('inner-race');
-        const innerAlignment = document.getElementById('inner-alignment');
+        buildReel(document.getElementById('inner-race'), race, 1800);
+        buildReel(document.getElementById('inner-keyword'), keywords, 2000);
+        buildReel(document.getElementById('inner-trait'), traits, 2200);
+        buildCombinationReel(document.getElementById('inner-personal'), finalSexuality, finalGender, relationship[finalRelationshipIndex], 2400);
+        buildReel(document.getElementById('inner-alignment'), alignment, 2600);
       
-        // Keyword reel stops first, trait reel stops a bit later, personal reel stops last
-        buildReel(innerRace, race, finalRaceIndex, 1800);
-        buildReel(innerKeyword, keywords, finalKeywordIndex, 2000);
-        buildReel(innerTrait, traits, finalTraitIndex, 2200);
-        buildCombinationReel(innerPersonal, finalSexuality, finalGender, relationship[finalRelationshipIndex], 2400);
-        buildReel(innerAlignment, alignment, finalAlignmentIndex, 2600);
-      
-        // Update descriptions when spinning completes (don't show overlays automatically)
         setTimeout(() => {
           document.getElementById('race-description').textContent = race[finalRaceIndex].description;
           document.getElementById('alignment-description').textContent = alignment[finalAlignmentIndex].description;
