@@ -130,7 +130,9 @@
               .join(' ');
             document.getElementById('alignment-description').textContent = descriptions;
           }
+          generateButton.disabled = false;
         }, 3100);
+      } // <-- This closing brace was missing!
       
       // Toggle overlays
       document.getElementById('reel-race').addEventListener('click', () => {
