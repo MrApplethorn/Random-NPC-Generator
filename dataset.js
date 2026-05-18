@@ -41,7 +41,7 @@ const reelConfig = {
     hasOverlay: false
   },
   trait: {
-    datasets: [traits, traits],
+    datasets: [traits],
     spinDuration: 2200,
     hasOverlay: false
   },
