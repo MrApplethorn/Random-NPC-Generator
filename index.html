@@ -116,7 +116,7 @@
         Object.entries(reelConfig).forEach(([key, config]) => {
           // Create wrapper for label + reel
           const wrapper = document.createElement('div');
-          wrapper.className = 'reel-wrapper-item';
+          wrapper.className = `reel-wrapper-item${config.isWide ? ' wide' : ''}`;
           
           // Create label if it exists
           if (config.label) {
@@ -127,7 +127,7 @@
           }
           
           const reelOuter = document.createElement('div');
-          reelOuter.className = `reel-outer${config.isWide ? ' wide' : ''}`;
+          reelOuter.className = 'reel-outer';
           reelOuter.id = `reel-${key}`;
           
           const reelInner = document.createElement('div');
