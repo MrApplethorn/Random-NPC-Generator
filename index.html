@@ -117,7 +117,9 @@
           if (reelConfig.alignment.hasOverlay && finalResults.alignment) {
             document.getElementById('alignment-description').textContent = finalResults.alignment.description;
           }
+          generateButton.disabled = false;
         }, 3100);
+      } // <-- This was missing!
       
       // Toggle overlays
       document.getElementById('reel-race').addEventListener('click', () => {
