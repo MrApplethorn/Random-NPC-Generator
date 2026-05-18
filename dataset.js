@@ -34,31 +34,31 @@ const reelConfig = {
     datasets: [race],
     spinDuration: 1800,
     hasOverlay: true,
-    iswide: true
+    isWide: true
   },
   keyword: {
     datasets: [keywords],
     spinDuration: 2000,
     hasOverlay: false,
-    iswide: false
+    isWide: false
   },
   trait: {
     datasets: [traits],
     spinDuration: 2200,
     hasOverlay: false,
-    iswide: false
+    isWide: false
   },
   personal: {
     datasets: [gender, sexuality, relationship],
     spinDuration: 2400,
     hasOverlay: false,
-    iswide: true
+    isWide: true
   },
   alignment: {
     datasets: [alignment],
     spinDuration: 2600,
     hasOverlay: true,
-    iswide: true
+    isWide: true
   }
 };
 
