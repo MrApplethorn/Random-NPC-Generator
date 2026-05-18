@@ -49,7 +49,6 @@ const reelConfig = {
     datasets: [gender, sexuality, relationship],
     spinDuration: 2400,
     hasOverlay: false,
-    buildFunction: buildPersonalReel
   },
   alignment: {
     datasets: [alignment],
@@ -87,52 +86,4 @@ function formatSexualityAndGender(selectedSexuality, selectedGender) {
 function combineDatasets(datasets) {
   if (!datasets || datasets.length === 0) return [];
   return datasets.flat();
-}
-
-// Special build function for personal reel
-function buildPersonalReel(innerEl, datasets, spinDuration) {
-  const combinations = [];
-  const SPIN_COUNT = 30;
-
-  for (let i = 0; i < SPIN_COUNT; i++) {
-    const g = gender[Math.floor(Math.random() * gender.length)];
-    const validSexualities = getValidSexuality(g);
-    const s = validSexualities[Math.floor(Math.random() * validSexualities.length)];
-    const r = relationship[Math.floor(Math.random() * relationship.length)];
-    const formattedDisplay = formatSexualityAndGender(s, g);
-    combinations.push(`${formattedDisplay}, ${r}`);
-  }
-  
-  // Store final values
-  const finalGenderIndex = Math.floor(Math.random() * gender.length);
-  const finalGender = gender[finalGenderIndex];
-  const validSexualities = getValidSexuality(finalGender);
-  const finalSexualityIndex = Math.floor(Math.random() * validSexualities.length);
-  const finalSexuality = validSexualities[finalSexualityIndex];
-  const finalRelationshipIndex = Math.floor(Math.random() * relationship.length);
-  
-  const formattedFinalDisplay = formatSexualityAndGender(finalSexuality, finalGender);
-  combinations.push(`${formattedFinalDisplay}, ${relationship[finalRelationshipIndex]}`);
-
-  innerEl.innerHTML = '';
-  combinations.forEach(text => {
-    const div = document.createElement('div');
-    div.className = 'reel-item';
-    div.textContent = text;
-    innerEl.appendChild(div);
-  });
-
-  innerEl.style.transition = 'none';
-  innerEl.style.transform = 'translateY(0)';
-  innerEl.getBoundingClientRect();
-
-  const targetY = -(SPIN_COUNT * 80);
-  innerEl.style.transition = `transform ${spinDuration}ms cubic-bezier(0.25, 0.1, 0.2, 1)`;
-  innerEl.style.transform = `translateY(${targetY}px)`;
-
-  return {
-    gender: finalGender,
-    sexuality: finalSexuality,
-    relationship: relationship[finalRelationshipIndex]
-  };
 }
